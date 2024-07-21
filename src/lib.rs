@@ -113,7 +113,11 @@ extern fn handle() {
 
     let reply = match action {
         PebblesAction::Turn(num) => game.make_user_move(num).expect("User unable to make a move"),
-        PebblesAction::GiveUp => PebblesEvent::Won(Player::Program),
+        PebblesAction::GiveUp => {
+            game.winner = Some(Player::Program);
+
+            PebblesEvent::Won(Player::Program)
+        },
         PebblesAction::Restart {
             difficulty,
             pebbles_count,
@@ -136,11 +140,20 @@ extern fn handle() {
             };
             game.winner = None;
 
+            let mut counter_turn = 0;
             if let Player::Program = game.first_player {
-                game.make_program_move().expect("Program unable to make a move");
+                match game.make_program_move() {
+                    Ok(event) => {
+                        counter_turn = match event {
+                            PebblesEvent::CounterTurn(num) => num,
+                            _ => 0,
+                        };
+                    },
+                    _ => ()
+                }
             }
 
-            PebblesEvent::CounterTurn(0)
+            PebblesEvent::CounterTurn(counter_turn)
         }
 
     };
