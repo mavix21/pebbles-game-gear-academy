@@ -1,7 +1,7 @@
 #![no_std]
 
-use gmeta::{In, InOut, Metadata, Out};
-use gstd::{ActorId, prelude::*};
+use gmeta::{InOut, Metadata, Out};
+use gstd::{prelude::*};
 
 // Initial information passed to the game
 #[derive(Debug, Default, Clone, Encode, Decode, TypeInfo)]
@@ -55,10 +55,19 @@ pub struct GameState {
     pub winner: Option<Player>,
 }
 
+#[derive(Debug, Clone, Encode, Decode, TypeInfo)]
+pub enum GameError {
+    GameAlreadyFinished,
+    AtLeastTwoPebblesToStart,
+    AtLeastOnePebblePerTurnToStart,
+    InvalidNumberOfPebblesToBeRemoved,
+    GameAlreadyStarted,
+}
+
 pub struct PebblesMetadata;
 
 impl Metadata for PebblesMetadata {
-    type Init = In<PebblesInit>;
+    type Init = InOut<PebblesInit, GameState>;
     type Handle = InOut<PebblesAction, PebblesEvent>;
     type Reply = ();
     type Others = ();

@@ -9,7 +9,6 @@ gstd.workspace = true
 scale-info.workspace = true
 parity-scale-codec.workspace = true
 pebbles-game-io.workspace = true
-rand.workspace = true
 getrandom.workspace = true
 
 [workspace]
@@ -30,7 +29,6 @@ gtest = "1.3.0"
 scale-info = { version = "2", default-features = false }
 parity-scale-codec = { version = "3", default-features = false }
 pebbles-game-io.path = "io"
-rand = "0.8.5"
 getrandom = { version = "0.2", features = ["js"] }
 
 [build-dependencies]

@@ -4303,7 +4303,6 @@ dependencies = [
  "gtest",
  "parity-scale-codec",
  "pebbles-game-io",
- "rand 0.8.5",
  "scale-info",
 ]
 
